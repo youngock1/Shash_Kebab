@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Шаш-Кебаб</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>☕ Шаш-Кебаб</h1>
+        <button id="cart-button">🛒 Корзина (<span id="cart-count">0</span>)</button>
+    </header>
+
+    <nav class="categories">
+        <button class="category-btn active" data-category="all">Все</button>
+        {% for cat in categories %}
+        <button class="category-btn" data-category="{{ cat }}">{{ cat }}</button>
+        {% endfor %}
+    </nav>
+
+    <main class="products-grid">
+        {% for product in products %}
+        <div class="product-card"
+             data-id="{{ product.id }}"
+             data-name="{{ product.name }}"
+             data-price="{{ product.price }}"
+             data-category="{{ product.category }}">
+            <h3>{{ product.name }}</h3>
+            <p class="price">{{ product.price }} ₽</p>
+            <button class="add-to-cart">В корзину</button>
+        </div>
+        {% endfor %}
+    </main>
+
+    <!-- Корзина -->
+    <div id="cart-sidebar" class="cart-sidebar">
+        <div class="cart-header">
+            <h2>Корзина</h2>
+            <button id="close-cart">✕</button>
+        </div>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-total">
+            <strong>Итого:</strong> <span id="cart-total">0</span> ₽
+        </div>
+        <button id="checkout-btn">Оформить заказ</button>
+    </div>
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Форма заказа -->
+    <div id="order-modal" class="modal">
+        <div class="modal-content">
+            <h2>Оформление заказа</h2>
+            <form id="order-form">
+                <input type="text" name="name" placeholder="Ваше имя" required>
+                <input type="tel" name="phone" placeholder="Телефон" required>
+                <input type="text" name="address" placeholder="Адрес доставки" required>
+                <textarea name="comment" placeholder="Комментарий (необязательно)"></textarea>
+                <button type="submit">Отправить заказ</button>
+                <button type="button" id="close-modal">Отмена</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
